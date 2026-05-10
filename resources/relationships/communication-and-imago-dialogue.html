@@ -73,10 +73,6 @@
         window.location.href = '../../inactive.html';
       } else {
         document.body.style.visibility = 'visible';
-        document.getElementById('signOutBtn').addEventListener('click', async () => {
-          await supabase.auth.signOut();
-          window.location.href = '../../index.html';
-        });
       }
     }
   </script>
@@ -85,10 +81,10 @@
 
   <div class="top-bar">
     <div class="top-bar-brand"><img src="../../assets/coach4u-logo.jpg" alt="Coach4U"></div>
-    <a href="../../relationships.html" class="back-link">&larr; Relationships</a>
+    <a href="#" onclick="history.back(); return false;" class="back-link">&larr; Back</a>
     <div style="display:flex;align-items:center;gap:10px;">
       <div class="top-bar-category">Relationships</div>
-      <button id="signOutBtn" style="font-size:0.75rem;font-weight:600;color:#003366;background:transparent;border:1px solid #003366;border-radius:6px;padding:4px 10px;cursor:pointer;">Sign Out</button>
+      
     </div>
   </div>
 
@@ -113,12 +109,19 @@
         <div class="step-number">1</div>
         <div class="step-emoji">&#129710;</div>
         <h2>Mirror</h2>
-        <p>Repeat back what your partner said in your own words. This shows you are listening without adding your own interpretation.</p>
+        <p>Reflecting back what your partner said shows you are truly listening, without adding your own interpretation, advice, or response.</p>
         <p>Do not fix, advise, or respond yet. Just reflect.</p>
-        <div class="speech-bubble">
-          <div class="speech-label">Say this</div>
+        <div class="speech-bubble" style="margin-bottom:12px;">
+          <div class="speech-label">Step 1 &mdash; Word for word</div>
+          <p>Slow down and repeat your partner&rsquo;s exact words back, one sentence at a time.</p>
           <p>&ldquo;What I hear you saying is...&rdquo;</p>
           <p>&ldquo;Did I get that right? Is there more?&rdquo;</p>
+        </div>
+        <div class="speech-bubble">
+          <div class="speech-label">Step 2 &mdash; Summarise</div>
+          <p>Once your partner has finished, reflect the overall meaning back in your own words to check you have understood the whole message.</p>
+          <p>&ldquo;So overall, what I hear you saying is...&rdquo;</p>
+          <p>&ldquo;Did I capture that?&rdquo;</p>
         </div>
       </div>
 

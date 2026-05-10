@@ -48,10 +48,6 @@
         window.location.href = '../../inactive.html';
       } else {
         document.body.style.visibility = 'visible';
-        document.getElementById('signOutBtn').addEventListener('click', async () => {
-          await supabase.auth.signOut();
-          window.location.href = '../../index.html';
-        });
       }
     }
   </script>
@@ -60,10 +56,10 @@
 
   <div class="header">
     <img src="../../assets/coach4u-logo.jpg" alt="Coach4U">
-    <a href="../../relationships.html" class="back-link">&larr; Relationships</a>
+    <a href="#" onclick="history.back(); return false;" class="back-link">&larr; Back</a>
     <div style="display:flex;align-items:center;gap:10px;">
       <span class="header-badge">Relationships</span>
-      <button id="signOutBtn" style="font-size:0.75rem;font-weight:600;color:#003366;background:transparent;border:1px solid #003366;border-radius:6px;padding:4px 10px;cursor:pointer;">Sign Out</button>
+      
     </div>
   </div>
 
