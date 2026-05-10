@@ -22,10 +22,6 @@
         window.location.href = '../../inactive.html';
       } else {
         document.body.style.visibility = 'visible';
-        document.getElementById('signOutBtn').addEventListener('click', async () => {
-          await supabase.auth.signOut();
-          window.location.href = '../../index.html';
-        });
       }
     }
   </script>
@@ -35,10 +31,10 @@
   <header class="site-header">
     <div class="header-inner">
       <div class="header-left">
-        <a href="../../communication.html" class="header-back">&larr; Back</a>
+        <a href="#" onclick="history.back(); return false;" class="header-back">&larr; Back</a>
         <span class="header-title">Issue Clarifier</span>
       </div>
-      <button id="signOutBtn" class="sign-out-btn">Sign Out</button>
+      
     </div>
   </header>
 
@@ -252,7 +248,10 @@
         <div class="act-info-card-title">The Imago Dialogue &mdash; what happens next</div>
         <div class="act-info-row">
           <span class="act-info-label">1. Mirror</span>
-          <span>Your partner reflects back what they heard: <em>&ldquo;What I hear you saying is&hellip;&rdquo;</em></span>
+          <span>
+            <strong>Word for word:</strong> Your partner slows down and repeats your exact words back, without changing, summarising, or interpreting. <em>&ldquo;What I hear you saying is&hellip;&rdquo;</em> Then: <em>&ldquo;Did I get that right? Is there more?&rdquo;</em><br><br>
+            <strong>Summarise:</strong> Once you have said everything you need to say, your partner reflects the overall meaning back in their own words, checking they have understood the whole message.
+          </span>
         </div>
         <div class="act-info-row">
           <span class="act-info-label">2. Validate</span>
