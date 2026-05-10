@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Issue Clarifier | Your Relationship Coach</title>
+  <link rel="manifest" href="../../manifest.json">
+  <meta name="theme-color" content="#1B3664">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/activity.css">
+  <style>body{visibility:hidden}</style>
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+    const supabase = createClient('https://eekefsuaefgpqmjdyniy.supabase.co', 'sb_publishable_pcXHwQVMpvEojb4K3afEMw_RMvgZM-Y');
+    const { data: { user }, error } = await supabase.auth.getUser();
+    if (!user || error) {
+      window.location.href = '../../index.html';
+    } else {
+      const { data: profile } = await supabase.from('users').select('membership_status').eq('id', user.id).single();
+      if (!profile || profile.membership_status !== 'active') {
+        window.location.href = '../../inactive.html';
+      } else {
+        document.body.style.visibility = 'visible';
+        document.getElementById('signOutBtn').addEventListener('click', async () => {
+          await supabase.auth.signOut();
+          window.location.href = '../../index.html';
+        });
+      }
+    }
+  </script>
+</head>
+<body class="activity-page">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-left">
+        <a href="../../communication.html" class="header-back">&larr; Back</a>
+        <span class="header-title">Issue Clarifier</span>
+      </div>
+      <button id="signOutBtn" class="sign-out-btn">Sign Out</button>
+    </div>
+  </header>
+
+  <div class="act-container">
+
+    <header class="act-header">
+      <h1>Issue Clarifier</h1>
+      <p>Clarify your perspective on a relationship issue &mdash; from your own point of view &mdash; before entering a conversation with your partner.</p>
+    </header>
+
+    <!-- Progress stepper -->
+    <div class="act-progress" id="progress">
+      <div class="act-progress-step active" data-step="1">
+        <span class="num">1</span><span>The Issue</span>
+      </div>
+      <div class="act-progress-divider"></div>
+      <div class="act-progress-step" data-step="2">
+        <span class="num">2</span><span>Feelings</span>
+      </div>
+      <div class="act-progress-divider"></div>
+      <div class="act-progress-step" data-step="3">
+        <span class="num">3</span><span>Need</span>
+      </div>
+      <div class="act-progress-divider"></div>
+      <div class="act-progress-step" data-step="4">
+        <span class="num">4</span><span>Your Message</span>
+      </div>
+    </div>
+
+    <!-- STEP 1: The Issue -->
+    <div class="act-card" id="step1">
+      <div class="act-step-label">Step 1 of 4</div>
+      <h2 class="act-step-title">What are you bringing to this conversation?</h2>
+      <p class="act-step-prompt">Choose the type of issue that best describes your experience. This is about <em>your</em> side of things &mdash; not blame.</p>
+      <p class="act-step-hint">Select one, then describe the situation briefly in your own words below.</p>
+
+      <div class="act-core-grid" id="issueTypeGrid">
+        <div class="act-core-tile" data-value="Something was said">
+          <span class="act-emoji">&#128172;</span>
+          <span>Something was said</span>
+        </div>
+        <div class="act-core-tile" data-value="Something wasn't said">
+          <span class="act-emoji">&#129296;</span>
+          <span>Something wasn&#8217;t said</span>
+        </div>
+        <div class="act-core-tile" data-value="Something was done">
+          <span class="act-emoji">&#128257;</span>
+          <span>Something was done</span>
+        </div>
+        <div class="act-core-tile" data-value="A recurring pattern">
+          <span class="act-emoji">&#127744;</span>
+          <span>A recurring pattern</span>
+        </div>
+        <div class="act-core-tile" data-value="I'm feeling disconnected">
+          <span class="act-emoji">&#127754;</span>
+          <span>Feeling disconnected</span>
+        </div>
+        <div class="act-core-tile" data-value="Trust has been hurt">
+          <span class="act-emoji">&#128148;</span>
+          <span>Trust has been hurt</span>
+        </div>
+        <div class="act-core-tile" data-value="A decision we need to make">
+          <span class="act-emoji">&#129309;</span>
+          <span>A decision to make</span>
+        </div>
+        <div class="act-core-tile" data-value="I need something different">
+          <span class="act-emoji">&#128591;</span>
+          <span>I need something different</span>
+        </div>
+      </div>
+
+      <div style="margin-top:20px">
+        <p class="act-step-prompt" style="margin-bottom:8px">Describe the situation in a sentence or two &mdash; just the facts, no judgements:</p>
+        <textarea id="issueDescription" class="act-textarea" placeholder="e.g. Last week when we were talking about finances, I felt unheard when the conversation moved on before I had finished speaking&hellip;" rows="3"></textarea>
+      </div>
+
+      <div class="act-context-box">
+        <div class="act-context-box-title">Why this step matters</div>
+        <p>In Imago Dialogue, the person who wants to share is called the <strong>Sender</strong>. Before speaking with your partner, getting clear on what the issue actually <em>is</em> from your own experience &mdash; without blame &mdash; helps you stay grounded and gives your partner something they can truly respond to.</p>
+      </div>
+
+      <div class="act-button-row">
+        <span></span>
+        <button class="act-btn act-btn-primary" id="next1" disabled>Continue &rarr;</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: Feelings -->
+    <div class="act-card act-hidden" id="step2">
+      <div class="act-step-label">Step 2 of 4</div>
+      <h2 class="act-step-title">What feelings are present for you?</h2>
+      <p class="act-step-prompt">Select the feelings that are most true for you right now. You can choose more than one.</p>
+      <p class="act-step-hint">Try to stay with the feeling itself &mdash; not the story around it.</p>
+
+      <div class="act-sub-grid" id="feelingsGrid">
+        <div class="act-sub-tile" data-value="Hurt">Hurt</div>
+        <div class="act-sub-tile" data-value="Sad">Sad</div>
+        <div class="act-sub-tile" data-value="Scared">Scared</div>
+        <div class="act-sub-tile" data-value="Angry">Angry</div>
+        <div class="act-sub-tile" data-value="Frustrated">Frustrated</div>
+        <div class="act-sub-tile" data-value="Lonely">Lonely</div>
+        <div class="act-sub-tile" data-value="Dismissed">Dismissed</div>
+        <div class="act-sub-tile" data-value="Unseen">Unseen</div>
+        <div class="act-sub-tile" data-value="Worried">Worried</div>
+        <div class="act-sub-tile" data-value="Overwhelmed">Overwhelmed</div>
+        <div class="act-sub-tile" data-value="Confused">Confused</div>
+        <div class="act-sub-tile" data-value="Disappointed">Disappointed</div>
+        <div class="act-sub-tile" data-value="Unloved">Unloved</div>
+        <div class="act-sub-tile" data-value="Resentful">Resentful</div>
+        <div class="act-sub-tile" data-value="Embarrassed">Embarrassed</div>
+        <div class="act-sub-tile" data-value="Powerless">Powerless</div>
+      </div>
+
+      <div class="act-context-box">
+        <div class="act-context-box-title">Feelings vs stories</div>
+        <p>A feeling is a single word: <em>hurt, scared, lonely.</em> A story is an interpretation: <em>&ldquo;you don&rsquo;t care,&rdquo; &ldquo;you always do this.&rdquo;</em> Imago Dialogue asks us to share feelings &mdash; not stories. This is what allows your partner to truly hear you without becoming defensive.</p>
+      </div>
+
+      <div class="act-button-row">
+        <button class="act-btn act-btn-secondary" onclick="window.goToStep(1)">&larr; Back</button>
+        <button class="act-btn act-btn-primary" id="next2" disabled>Continue &rarr;</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Need -->
+    <div class="act-card act-hidden" id="step3">
+      <div class="act-step-label">Step 3 of 4</div>
+      <h2 class="act-step-title">What need is underneath this feeling?</h2>
+      <p class="act-step-prompt">Every feeling points to a deeper need. Select the one that resonates most strongly for you.</p>
+      <p class="act-step-hint">This is where the real conversation lives &mdash; beneath the issue and the feeling is a need your partner can respond to.</p>
+
+      <div class="act-nuance-list" id="needsList">
+        <div class="act-nuance-item" data-value="Safety">
+          <span class="act-word">Safety</span>
+          <span class="act-desc">I need to feel emotionally and physically safe in our relationship</span>
+        </div>
+        <div class="act-nuance-item" data-value="Connection">
+          <span class="act-word">Connection</span>
+          <span class="act-desc">I need to feel close, bonded and truly together with you</span>
+        </div>
+        <div class="act-nuance-item" data-value="Understanding">
+          <span class="act-word">Understanding</span>
+          <span class="act-desc">I need to feel heard, understood and validated in my experience</span>
+        </div>
+        <div class="act-nuance-item" data-value="Respect">
+          <span class="act-word">Respect</span>
+          <span class="act-desc">I need to feel valued and treated as an equal partner</span>
+        </div>
+        <div class="act-nuance-item" data-value="Trust">
+          <span class="act-word">Trust</span>
+          <span class="act-desc">I need to be able to rely on you and feel secure in what we have</span>
+        </div>
+        <div class="act-nuance-item" data-value="Support">
+          <span class="act-word">Support</span>
+          <span class="act-desc">I need to know you are there for me when it matters</span>
+        </div>
+        <div class="act-nuance-item" data-value="Acknowledgement">
+          <span class="act-word">Acknowledgement</span>
+          <span class="act-desc">I need my experience and contribution to be noticed and recognised</span>
+        </div>
+        <div class="act-nuance-item" data-value="Belonging">
+          <span class="act-word">Belonging</span>
+          <span class="act-desc">I need to feel we are a team &mdash; that I truly matter to you</span>
+        </div>
+        <div class="act-nuance-item" data-value="Space">
+          <span class="act-word">Space</span>
+          <span class="act-desc">I need room to be myself and express my feelings without judgement</span>
+        </div>
+        <div class="act-nuance-item" data-value="Repair">
+          <span class="act-word">Repair</span>
+          <span class="act-desc">I need us to address what has happened and find our way back to each other</span>
+        </div>
+      </div>
+
+      <div class="act-context-box">
+        <div class="act-context-box-title">The Imago insight</div>
+        <p>Imago Relationship Therapy (Hendrix &amp; Hunt) teaches that many relationship conflicts arise from unmet needs that are activated in our closest relationships. Naming your need is not a demand &mdash; it is an invitation for your partner to understand you more deeply.</p>
+      </div>
+
+      <div class="act-button-row">
+        <button class="act-btn act-btn-secondary" onclick="window.goToStep(2)">&larr; Back</button>
+        <button class="act-btn act-btn-primary" id="next3" disabled>Continue &rarr;</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: Your Message -->
+    <div class="act-card act-hidden" id="step4">
+      <div class="act-step-label">Step 4 of 4</div>
+      <h2 class="act-step-title">Your Imago opening message</h2>
+      <p class="act-step-prompt">Here is a prepared statement based on what you clarified. Edit it until it feels true &mdash; then use it to invite your partner into the dialogue.</p>
+
+      <div class="act-summary-banner">
+        <div class="act-summary-label">Your clarified perspective</div>
+        <div class="act-summary-words" id="summaryIssue">&mdash;</div>
+        <div class="act-summary-path" id="summaryPath">&mdash;</div>
+      </div>
+
+      <div class="act-section-title" style="margin-top:24px">Your statement</div>
+      <div class="act-reflect-prompts">
+        <div>
+          <label>Opening statement &mdash; edit until it feels right:</label>
+          <textarea id="imagoStatement" class="act-textarea" rows="4" placeholder="I feel&hellip; when&hellip; What I need is&hellip;"></textarea>
+        </div>
+        <div>
+          <label>How will you invite your partner into this conversation?</label>
+          <textarea id="inviteStatement" class="act-textarea" rows="2" placeholder="e.g. Would you be willing to have a conversation with me when you are ready?"></textarea>
+        </div>
+      </div>
+
+      <div class="act-info-card" style="margin-top:24px">
+        <div class="act-info-card-title">The Imago Dialogue &mdash; what happens next</div>
+        <div class="act-info-row">
+          <span class="act-info-label">1. Mirror</span>
+          <span>Your partner reflects back what they heard: <em>&ldquo;What I hear you saying is&hellip;&rdquo;</em></span>
+        </div>
+        <div class="act-info-row">
+          <span class="act-info-label">2. Validate</span>
+          <span>Your partner acknowledges your perspective makes sense: <em>&ldquo;That makes sense because&hellip;&rdquo;</em></span>
+        </div>
+        <div class="act-info-row">
+          <span class="act-info-label">3. Empathise</span>
+          <span>Your partner names the feeling they imagine is present: <em>&ldquo;I imagine you might be feeling&hellip;&rdquo;</em></span>
+        </div>
+      </div>
+
+      <div class="act-context-box">
+        <div class="act-context-box-title">Before you begin the dialogue</div>
+        <p>Choose a calm moment &mdash; not when either of you is rushed, tired, or already activated. Make a request, not a demand: <em>&ldquo;Would you be willing to talk when you&rsquo;re ready?&rdquo;</em> After you share, your partner takes a turn &mdash; they become the Sender and you become the Receiver, mirroring them with the same care.</p>
+      </div>
+
+      <div class="act-button-row">
+        <button class="act-btn act-btn-secondary" onclick="window.goToStep(3)">&larr; Back</button>
+        <button class="act-btn act-btn-primary" onclick="window.startOver()">Start again</button>
+      </div>
+    </div>
+
+    <footer class="act-footer">
+      Strengths-Based Coaching and Counselling |
+      <a href="https://www.coach4u.com.au" target="_blank">coach4u.com.au</a>
+    </footer>
+
+  </div>
+
+  <script>
+    const state = {
+      issueType: null,
+      issueDescription: '',
+      feelings: new Set(),
+      need: null
+    }
+
+    function goToStep(n) {
+      for (let i = 1; i <= 4; i++) {
+        document.getElementById('step' + i).classList.toggle('act-hidden', i !== n)
+      }
+      document.querySelectorAll('.act-progress-step').forEach(el => {
+        const s = parseInt(el.dataset.step)
+        el.classList.remove('active', 'done')
+        if (s < n) el.classList.add('done')
+        else if (s === n) el.classList.add('active')
+      })
+      if (n === 4) buildSummary()
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+
+    window.goToStep = goToStep
+
+    window.startOver = function () {
+      state.issueType = null
+      state.issueDescription = ''
+      state.feelings = new Set()
+      state.need = null
+      document.querySelectorAll('.act-core-tile, .act-sub-tile, .act-nuance-item').forEach(el => el.classList.remove('selected'))
+      document.getElementById('issueDescription').value = ''
+      document.getElementById('next1').disabled = true
+      document.getElementById('next2').disabled = true
+      document.getElementById('next3').disabled = true
+      goToStep(1)
+    }
+
+    // Step 1 — issue type (single select)
+    document.querySelectorAll('#issueTypeGrid .act-core-tile').forEach(tile => {
+      tile.addEventListener('click', () => {
+        document.querySelectorAll('#issueTypeGrid .act-core-tile').forEach(t => t.classList.remove('selected'))
+        tile.classList.add('selected')
+        state.issueType = tile.dataset.value
+        document.getElementById('next1').disabled = false
+      })
+    })
+
+    document.getElementById('issueDescription').addEventListener('input', e => {
+      state.issueDescription = e.target.value
+    })
+
+    document.getElementById('next1').addEventListener('click', () => goToStep(2))
+
+    // Step 2 — feelings (multi-select)
+    document.querySelectorAll('#feelingsGrid .act-sub-tile').forEach(tile => {
+      tile.addEventListener('click', () => {
+        tile.classList.toggle('selected')
+        const val = tile.dataset.value
+        if (tile.classList.contains('selected')) {
+          state.feelings.add(val)
+        } else {
+          state.feelings.delete(val)
+        }
+        document.getElementById('next2').disabled = state.feelings.size === 0
+      })
+    })
+
+    document.getElementById('next2').addEventListener('click', () => goToStep(3))
+
+    // Step 3 — need (single select)
+    document.querySelectorAll('#needsList .act-nuance-item').forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('#needsList .act-nuance-item').forEach(i => i.classList.remove('selected'))
+        item.classList.add('selected')
+        state.need = item.dataset.value
+        document.getElementById('next3').disabled = false
+      })
+    })
+
+    document.getElementById('next3').addEventListener('click', () => goToStep(4))
+
+    function buildSummary() {
+      const feelingsList = [...state.feelings].join(', ')
+      document.getElementById('summaryIssue').textContent = state.issueType || 'An issue in our relationship'
+      document.getElementById('summaryPath').textContent =
+        'Feeling: ' + (feelingsList || '—') + '  ·  Need: ' + (state.need || '—')
+
+      const desc = state.issueDescription.trim()
+      const descClip = desc ? (desc.length > 80 ? desc.slice(0, 80).trim() + '…' : desc) : ''
+      const situationPhrase = descClip ? ' — ' + descClip : ''
+
+      const statement =
+        'I feel ' + (feelingsList || '[feeling]') +
+        ' when ' + (state.issueType ? state.issueType.toLowerCase() : '[situation]') +
+        situationPhrase +
+        '. What I need is ' + (state.need ? state.need.toLowerCase() : '[need]') + '.'
+
+      document.getElementById('imagoStatement').value = statement
+      document.getElementById('inviteStatement').value =
+        'Would you be willing to have a conversation with me when you are ready? I have something I’d like to share with you.'
+    }
+  </script>
+
+</body>
+</html>
