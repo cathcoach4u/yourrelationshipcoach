@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Your Relationship Coach &mdash; Sign In</title>
+  <link rel="stylesheet" href="css/style.css">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#003366">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Your Relationship Coach">
   <link rel="apple-touch-icon" href="assets/coach4u-icon.jpeg">
-  <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="login-page">
 
@@ -18,7 +18,7 @@
 
     <div class="login-card">
       <div class="login-logo">
-        <img src="Assets/Your Relationship Coach - COACH4U (Final).jpg" alt="Coach4U" style="height:48px;margin-bottom:10px;display:block;margin-left:auto;margin-right:auto;">
+        <img src="Assets/Your Relationship Coach - COACH4U (Final).jpg" alt="Your Relationship Coach" style="height:48px;margin-bottom:10px;display:block;margin-left:auto;margin-right:auto;">
         <h1>Your Relationship Coach</h1>
       </div>
       <p class="login-subtitle">Sign in to access your coaching resources.</p>
@@ -61,7 +61,7 @@
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const { data: { session } } = await supabase.auth.getSession();
-    if (session) window.location.href = 'portal.html';
+    if (session) window.location.href = 'index.html';
 
     const form    = document.getElementById('loginForm');
     const msgEl   = document.getElementById('message');
@@ -98,7 +98,7 @@
         btn.disabled = false;
         btn.textContent = 'Sign In';
       } else {
-        window.location.href = 'portal.html';
+        window.location.href = 'index.html';
       }
     });
   </script>
