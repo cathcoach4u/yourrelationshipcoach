@@ -2,57 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Relationship Coach — Sign In</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#003366">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Your Relationship Coach">
-  <link rel="apple-touch-icon" href="assets/coach4u-icon.jpeg">
+  <title>Your Relationship Coach</title>
 </head>
-<body class="login-page">
-
-  <div style="display:flex;flex-direction:column;align-items:center;width:100%;max-width:420px;padding:20px;">
-
-    <div class="login-card">
-      <div class="login-logo">
-        <img src="assets/coach4u-logo.jpg" alt="Coach4U" style="height:64px;width:auto;">
-        <h1>Your Relationship Coach</h1>
-      </div>
-      <p class="login-subtitle">Sign in to access your coaching resources.</p>
-
-      <form id="loginForm">
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" required autocomplete="email" placeholder="you@example.com">
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <div class="password-wrapper">
-            <input type="password" id="password" required autocomplete="current-password">
-            <button type="button" class="toggle-password" id="toggleBtn">Show</button>
-          </div>
-        </div>
-
-        <div id="message" class="login-message"></div>
-
-        <button type="submit" class="login-btn" id="submitBtn">Sign In</button>
-      </form>
-
-      <a href="forgot-password.html" class="login-forgot">Forgot password?</a>
-    </div>
-
-    <p style="margin-top:20px;font-size:9pt;color:rgba(255,255,255,0.75);text-align:center;line-height:1.6;">
-      Strengths-Based Coaching and Counselling<br>
-      <a href="http://www.coach4u.com.au" style="color:rgba(255,255,255,0.75);">www.coach4u.com.au</a> |
-      <a href="mailto:cath@coach4u.com.au" style="color:rgba(255,255,255,0.75);">cath@coach4u.com.au</a> |
-      0402 313 337
-    </p>
-
-  </div>
-
+<body>
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
@@ -61,47 +13,17 @@
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const { data: { session } } = await supabase.auth.getSession();
-    if (session) window.location.href = 'portal.html';
-
-    const form    = document.getElementById('loginForm');
-    const msgEl   = document.getElementById('message');
-    const btn     = document.getElementById('submitBtn');
-    const toggle  = document.getElementById('toggleBtn');
-    const pwInput = document.getElementById('password');
-
-    toggle.addEventListener('click', () => {
-      if (pwInput.type === 'password') {
-        pwInput.type = 'text';
-        toggle.textContent = 'Hide';
-      } else {
-        pwInput.type = 'password';
-        toggle.textContent = 'Show';
-      }
-    });
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      btn.disabled = true;
-      btn.textContent = 'Signing in…';
-      msgEl.style.display = 'none';
-      msgEl.className = 'login-message';
-
-      const email    = document.getElementById('email').value.trim();
-      const password = pwInput.value;
-
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-
-      if (error) {
-        msgEl.textContent = error.message;
-        msgEl.classList.add('error');
-        msgEl.style.display = 'block';
-        btn.disabled = false;
-        btn.textContent = 'Sign In';
-      } else {
+    if (!session) {
+      window.location.href = 'login.html';
+    } else {
+      const { data: profile } = await supabase.from('users')
+        .select('membership_status').eq('id', session.user.id).single();
+      if (profile?.membership_status === 'active') {
         window.location.href = 'portal.html';
+      } else {
+        window.location.href = 'inactive.html';
       }
-    });
+    }
   </script>
-
 </body>
 </html>
