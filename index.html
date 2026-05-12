@@ -2,9 +2,102 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Your Relationship Coach</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Relationship Coach — Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#003366">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Your Relationship Coach">
+  <link rel="apple-touch-icon" href="assets/coach4u-icon.jpeg">
+  <style>body { opacity: 0; transition: opacity 0.2s ease; }</style>
 </head>
 <body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-left">
+        <a href="https://cathcoach4u.github.io/yourcoachingportal/" class="header-back">← Portal</a>
+        <span class="header-title">Your Relationship Coach</span>
+      </div>
+      <button id="signOutBtn" class="sign-out-btn">Sign Out</button>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <div class="membership-card">
+      <div class="member-name" id="memberName">—</div>
+    </div>
+
+    <div class="app-section-header">
+      <span class="app-section-title">Your Modules</span>
+      <span class="app-section-count">7 available · 1 coming soon</span>
+    </div>
+
+    <div class="app-grid">
+
+      <div class="app-card">
+        <div class="app-card-icon">🧭</div>
+        <div class="app-card-title">Understanding Your Relationship</div>
+        <div class="app-card-desc">Explore the foundations of your relationship, from unconscious patterns to conscious love.</div>
+        <a href="understanding.html" class="btn btn-primary">Open</a>
+      </div>
+
+      <div class="app-card">
+        <div class="app-card-icon">💬</div>
+        <div class="app-card-title">Communication and Connection</div>
+        <div class="app-card-desc">Tools and frameworks for deeper dialogue, connection, and understanding each other.</div>
+        <a href="communication.html" class="btn btn-primary">Open</a>
+      </div>
+
+      <div class="app-card">
+        <div class="app-card-icon">📅</div>
+        <div class="app-card-title">Daily Practice</div>
+        <div class="app-card-desc">Rituals and check-ins to keep your relationship growing day by day.</div>
+        <a href="daily-practice.html" class="btn btn-primary">Open</a>
+      </div>
+
+      <div class="app-card">
+        <div class="app-card-icon">💚</div>
+        <div class="app-card-title">Healing and Trust</div>
+        <div class="app-card-desc">Resources for rebuilding trust, safety, and emotional security in your relationship.</div>
+        <a href="healing.html" class="btn btn-primary">Open</a>
+      </div>
+
+      <div class="app-card">
+        <div class="app-card-icon">🔄</div>
+        <div class="app-card-title">Navigating Transitions</div>
+        <div class="app-card-desc">Guidance for moving through change, separation, and life's big shifts with care.</div>
+        <a href="transitions.html" class="btn btn-primary">Open</a>
+      </div>
+
+      <div class="app-card">
+        <div class="app-card-icon">🧠</div>
+        <div class="app-card-title">Specialised Support</div>
+        <div class="app-card-desc">Targeted resources for specific relationship challenges, including ADHD and more.</div>
+        <a href="specialised.html" class="btn btn-primary">Open</a>
+      </div>
+
+      <div class="app-card">
+        <div class="app-card-icon">📥</div>
+        <div class="app-card-title">Downloads</div>
+        <div class="app-card-desc">Printable PDFs and worksheets to save or print for offline use.</div>
+        <a href="downloads.html" class="btn btn-primary">Open</a>
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer class="site-footer">
+    Strengths-Based Coaching and Counselling<br>
+    <a href="http://www.coach4u.com.au">www.coach4u.com.au</a> |
+    <a href="mailto:cath@coach4u.com.au">cath@coach4u.com.au</a> |
+    0402 313 337
+  </footer>
+
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
@@ -12,18 +105,30 @@
     const SUPABASE_ANON_KEY = 'sb_publishable_pcXHwQVMpvEojb4K3afEMw_RMvgZM-Y';
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+
+    if (!user || userError) {
       window.location.href = 'login.html';
     } else {
-      const { data: profile } = await supabase.from('users')
-        .select('membership_status').eq('id', session.user.id).single();
-      if (profile?.membership_status === 'active') {
-        window.location.href = 'portal.html';
-      } else {
+      const { data: profile } = await supabase
+        .from('users')
+        .select('membership_status, name')
+        .eq('id', user.id)
+        .single();
+
+      if (!profile || profile.membership_status !== 'active') {
         window.location.href = 'inactive.html';
+      } else {
+        document.getElementById('memberName').textContent = profile.name || user.user_metadata?.name || user.email;
+        document.body.style.opacity = '1';
+
+        document.getElementById('signOutBtn').addEventListener('click', async () => {
+          await supabase.auth.signOut();
+          window.location.href = 'login.html';
+        });
       }
     }
   </script>
+
 </body>
 </html>
