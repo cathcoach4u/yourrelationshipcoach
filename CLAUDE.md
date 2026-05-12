@@ -50,7 +50,7 @@ WHERE LOWER(email) = LOWER('email@here.com');
 
 ### App Overview
 
-**Coach4U Relationships** is a membership-gated client resource library for relationship coaching and counselling. After signing in with email and password, clients with `membership_status = 'active'` land on the dashboard (`portal.html`) and can navigate into 6 relationship coaching modules plus Downloads and Account.
+**Coach4U Relationships** is a membership-gated client resource library for relationship coaching and counselling. After signing in with email and password, clients with `membership_status = 'active'` land on the dashboard (`portal.html`) and can navigate into 6 relationship coaching modules plus Downloads.
 
 The 6 modules map directly to the section headings that existed in the original `relationships.html` — each is now its own standalone page.
 
@@ -65,7 +65,6 @@ The 6 modules map directly to the section headings that existed in the original 
 | Navigating Transitions | `transitions.html` | Active |
 | Specialised Support | `specialised.html` | Active |
 | Downloads | `downloads.html` | Active |
-| Account | — | Coming Soon |
 
 ### Pages
 
@@ -75,7 +74,7 @@ The 6 modules map directly to the section headings that existed in the original 
 | `forgot-password.html` | No | Send password reset email |
 | `reset-password.html` | No | Update password via reset token |
 | `inactive.html` | No | Shown when membership is inactive |
-| `portal.html` | Yes | Dashboard — 8 module cards |
+| `portal.html` | Yes | Dashboard — 7 module cards (3-column grid on desktop) |
 | `downloads.html` | Yes | Printable PDFs and worksheets |
 | `understanding.html` | Yes | Understanding Your Relationship resources |
 | `communication.html` | Yes | Communication and Connection resources |
@@ -97,9 +96,11 @@ To add a resource to a module:
 ```html
 <div class="resource-item">
   <strong style="color:var(--primary);font-size:14px;line-height:1.4;">Resource Title</strong>
-  <a href="resources/relationships/your-resource.html" target="_blank" class="btn btn-primary">View</a>
+  <a href="resources/relationships/your-resource.html" class="btn btn-primary">View</a>
 </div>
 ```
+
+**Do not use `target="_blank"` on resource links.** Activities open within the app, not in a new tab.
 
 To add a new module to the dashboard, create a new HTML page and add an `app-card` entry to `portal.html`.
 
@@ -161,6 +162,14 @@ For module pages at root level:
 ```
 
 For pages in `resources/relationships/` use `'../../index.html'` and `'../../inactive.html'`.
+
+**Resource pages do not include a Sign Out button.** Only module pages (root level) show Sign Out. Do not add `signOutBtn` to pages under `resources/relationships/`.
+
+**Back links on resource pages use `history.back()`.** Use this pattern — never hardcode a path back to `relationships.html` or any module page:
+
+```html
+<a href="#" onclick="history.back(); return false;" class="back-link">&larr; Back</a>
+```
 
 ### Branding
 
