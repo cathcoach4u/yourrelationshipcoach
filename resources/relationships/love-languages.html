@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Love Languages &mdash; Coach4U</title>
+  <style>
+    @page { size: landscape; margin: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Aptos', 'Calibri', 'Segoe UI', sans-serif; background: #FFFFFF; color: #000000; min-height: 100vh; display: flex; flex-direction: column; }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 28px 48px 0; }
+    .top-bar-brand img { display: block; height: 40px; width: auto; }
+    .top-bar-category { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: #1B3664; background: #E8EEF4; padding: 4px 14px; border-radius: 20px; }
+    .back-link { font-size: 0.8rem; color: #1B3664; text-decoration: none; font-weight: 600; }
+    .back-link:hover { text-decoration: underline; }
+    .title-section { text-align: center; padding: 22px 48px 4px; }
+    .title-section h1 { font-size: 2rem; font-weight: bold; color: #1B3664; margin-bottom: 4px; }
+    .title-section h1 em { font-style: italic; font-weight: 400; }
+    .title-section p { font-size: 0.95rem; color: #646464; max-width: 760px; margin: 0 auto; line-height: 1.5; }
+    .title-section .reference { font-size: 0.75rem; color: #999999; margin-top: 4px; }
+    .languages-grid { flex: 1; display: flex; gap: 16px; padding: 14px 48px 10px; align-items: stretch; }
+    .lang-card { flex: 1; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
+    .lang-top { padding: 18px 18px 14px; flex: 1; display: flex; flex-direction: column; }
+    .card-1 .lang-top { background: linear-gradient(135deg, #EBF2FD 0%, #D6E6FA 100%); border: 2px solid #5684C4; border-bottom: none; border-radius: 16px 16px 0 0; }
+    .card-2 .lang-top { background: linear-gradient(135deg, #E8F7F0 0%, #D0EFE0 100%); border: 2px solid #4A9970; border-bottom: none; border-radius: 16px 16px 0 0; }
+    .card-3 .lang-top { background: linear-gradient(135deg, #FFF0F5 0%, #FFE0EC 100%); border: 2px solid #E87AAA; border-bottom: none; border-radius: 16px 16px 0 0; }
+    .card-4 .lang-top { background: linear-gradient(135deg, #FFF6EB 0%, #FFECCE 100%); border: 2px solid #E8A040; border-bottom: none; border-radius: 16px 16px 0 0; }
+    .card-5 .lang-top { background: linear-gradient(135deg, #F4F0FF 0%, #E6DCFF 100%); border: 2px solid #9970CC; border-bottom: none; border-radius: 16px 16px 0 0; }
+    .lang-emoji { font-size: 2.2rem; text-align: center; margin-bottom: 6px; }
+    .lang-name { font-size: 1.05rem; font-weight: 700; color: #1B3664; text-align: center; margin-bottom: 8px; line-height: 1.3; }
+    .lang-desc { font-size: 0.84rem; line-height: 1.45; text-align: center; color: #333; }
+    .lang-example { margin-top: auto; padding-top: 10px; font-size: 0.8rem; font-style: italic; color: #555; text-align: center; }
+    .lang-example span { display: block; font-style: normal; font-weight: 700; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 3px; }
+    .card-1 .lang-example span { color: #2C5FAA; }
+    .card-2 .lang-example span { color: #2A7050; }
+    .card-3 .lang-example span { color: #BB3377; }
+    .card-4 .lang-example span { color: #B05F10; }
+    .card-5 .lang-example span { color: #6644AA; }
+    .practice { padding: 13px 16px; display: flex; flex-direction: column; align-items: center; border-radius: 0 0 16px 16px; }
+    .card-1 .practice { background: #EBF2FD; border: 2px solid #5684C4; border-top: 2px dashed #5684C4; }
+    .card-2 .practice { background: #E8F7F0; border: 2px solid #4A9970; border-top: 2px dashed #4A9970; }
+    .card-3 .practice { background: #FFF0F5; border: 2px solid #E87AAA; border-top: 2px dashed #E87AAA; }
+    .card-4 .practice { background: #FFF6EB; border: 2px solid #E8A040; border-top: 2px dashed #E8A040; }
+    .card-5 .practice { background: #F4F0FF; border: 2px solid #9970CC; border-top: 2px dashed #9970CC; }
+    .practice-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
+    .card-1 .practice-label { color: #2C5FAA; }
+    .card-2 .practice-label { color: #2A7050; }
+    .card-3 .practice-label { color: #BB3377; }
+    .card-4 .practice-label { color: #B05F10; }
+    .card-5 .practice-label { color: #6644AA; }
+    .practice p { font-size: 0.82rem; text-align: center; line-height: 1.4; }
+    .card-1 .practice p { color: #1B3664; }
+    .card-2 .practice p { color: #1A4A30; }
+    .card-3 .practice p { color: #6A0A30; }
+    .card-4 .practice p { color: #5A2A00; }
+    .card-5 .practice p { color: #3A1A6A; }
+    .bottom-bar { display: flex; gap: 16px; padding: 6px 48px 10px; justify-content: center; }
+    .bottom-card { background: #1B3664; color: #FFFFFF; border-radius: 12px; padding: 12px 24px; text-align: center; max-width: 540px; }
+    .bottom-card h3 { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #5684C4; margin-bottom: 4px; }
+    .bottom-card p { font-size: 0.86rem; color: #E0E8F0; line-height: 1.5; }
+    .footer { text-align: center; padding: 6px 48px 20px; }
+    .footer p { font-size: 9pt; color: #646464; line-height: 1.8; }
+    @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+    @media (max-width: 1000px) {
+      .languages-grid { flex-direction: column; padding: 12px 24px; }
+      .bottom-bar { flex-direction: column; align-items: center; padding: 8px 24px; }
+      .top-bar, .title-section, .footer { padding-left: 24px; padding-right: 24px; }
+    }
+  </style>
+  <style>body{visibility:hidden}</style>
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+    const supabase = createClient('https://eekefsuaefgpqmjdyniy.supabase.co', 'sb_publishable_pcXHwQVMpvEojb4K3afEMw_RMvgZM-Y');
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (!user || userError) {
+      window.location.href = '../../index.html';
+    } else {
+      const { data: profile } = await supabase.from('users').select('membership_status').eq('id', user.id).single();
+      if (!profile || profile.membership_status !== 'active') {
+        window.location.href = '../../inactive.html';
+      } else {
+        document.body.style.visibility = 'visible';
+      }
+    }
+  </script>
+</head>
+<body>
+
+  <div class="top-bar">
+    <div class="top-bar-brand"><img src="../../assets/coach4u-logo.jpg" alt="Coach4U"></div>
+    <a href="#" onclick="history.back(); return false;" class="back-link">&larr; Back</a>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="top-bar-category">Communication and Connection</div>
+    </div>
+  </div>
+
+  <div class="title-section">
+    <h1>The Five <em>Love Languages</em></h1>
+    <p>Understanding how you and your partner give and receive love can deepen connection, reduce misunderstandings, and bring greater emotional intimacy to your relationship.</p>
+    <div class="reference">Based on Dr Gary Chapman&rsquo;s research, first published in 1992</div>
+  </div>
+
+  <div class="languages-grid">
+
+    <div class="lang-card card-1">
+      <div class="lang-top">
+        <div class="lang-emoji">&#128172;</div>
+        <div class="lang-name">Words of Affirmation</div>
+        <div class="lang-desc">Expressing love through verbal praise, compliments, encouragement, and saying &ldquo;I love you.&rdquo; People with this language feel most valued when they hear genuine, supportive words.</div>
+        <div class="lang-example"><span>Sounds like</span>&ldquo;I&rsquo;m so grateful for you. I really appreciate what you did today.&rdquo;</div>
+      </div>
+      <div class="practice">
+        <div class="practice-label">Try this</div>
+        <p>Leave a kind note, send a genuine text, or say out loud one thing you admire about your partner today.</p>
+      </div>
+    </div>
+
+    <div class="lang-card card-2">
+      <div class="lang-top">
+        <div class="lang-emoji">&#9202;</div>
+        <div class="lang-name">Quality Time</div>
+        <div class="lang-desc">Showing love through undivided attention, meaningful conversations, and shared activities. It is the presence that matters, not the activity. Phones away, eyes and ears fully engaged.</div>
+        <div class="lang-example"><span>Sounds like</span>&ldquo;Let&rsquo;s put everything aside and just be together for a while.&rdquo;</div>
+      </div>
+      <div class="practice">
+        <div class="practice-label">Try this</div>
+        <p>Schedule 20 minutes this week with no screens, just conversation or a shared activity you both enjoy.</p>
+      </div>
+    </div>
+
+    <div class="lang-card card-3">
+      <div class="lang-top">
+        <div class="lang-emoji">&#129304;</div>
+        <div class="lang-name">Physical Touch</div>
+        <div class="lang-desc">Communicating affection through hugs, holding hands, a hand on the shoulder, or closeness. For those with this language, physical presence and touch are central to feeling loved and safe.</div>
+        <div class="lang-example"><span>Sounds like</span>A long hug at the end of the day. Reaching over and holding hands.</div>
+      </div>
+      <div class="practice">
+        <div class="practice-label">Try this</div>
+        <p>Offer a longer hug, hold hands on a walk, or simply sit close together without an agenda.</p>
+      </div>
+    </div>
+
+    <div class="lang-card card-4">
+      <div class="lang-top">
+        <div class="lang-emoji">&#128736;&#65039;</div>
+        <div class="lang-name">Acts of Service</div>
+        <div class="lang-desc">Demonstrating love through helpful actions that ease your partner&rsquo;s load &mdash; cooking a meal, running an errand, handling something before being asked. For these people, actions genuinely speak louder than words.</div>
+        <div class="lang-example"><span>Sounds like</span>&ldquo;I noticed you were tired, so I took care of it.&rdquo;</div>
+      </div>
+      <div class="practice">
+        <div class="practice-label">Try this</div>
+        <p>Do one task your partner usually handles, without being asked and without mentioning it afterwards.</p>
+      </div>
+    </div>
+
+    <div class="lang-card card-5">
+      <div class="lang-top">
+        <div class="lang-emoji">&#127873;</div>
+        <div class="lang-name">Receiving Gifts</div>
+        <div class="lang-desc">Feeling loved through thoughtful tokens that say &ldquo;I was thinking of you.&rdquo; The value lies in the thought and meaning behind the gift, not its price. Small and specific carries far more weight than grand and generic.</div>
+        <div class="lang-example"><span>Sounds like</span>Bringing home their favourite coffee. A small gift chosen just because it reminded you of them.</div>
+      </div>
+      <div class="practice">
+        <div class="practice-label">Try this</div>
+        <p>Choose something small and specific that shows you paid attention to what your partner loves or mentioned in passing.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom-bar">
+    <div class="bottom-card">
+      <h3>Reflect together</h3>
+      <p>Each of you: identify your primary love language. Share what makes you feel most appreciated and one specific thing your partner could do more of.</p>
+    </div>
+    <div class="bottom-card">
+      <h3>Keep in mind</h3>
+      <p>Most people appreciate all five forms. Focus on the language that resonates most for your partner. Preferences can shift over time, so keep the conversation open.</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Strengths-Based Coaching and Counselling<br>www.coach4u.com.au<br>cath@coach4u.com.au<br>0402 313 337</p>
+  </div>
+
+</body>
+</html>
